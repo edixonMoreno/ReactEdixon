@@ -6,33 +6,64 @@ import CounterApp from "../CounterApp"
 
 describe('Pruebas de <CounterApp />', () => {
     
-//     test('debe mostrar el mensaje "Hola soy Goku" ', () => {
-        
-//         const saludo = "Hola Soy Goku";
+ 
+    let wrapper = shallow( <CounterApp />);
 
-//         const {getByText} = render( <PrimeraApp saludo={ saludo } /> );
+    beforeEach( () => {
 
-//         expect( getByText(saludo) ).toBeInTheDocument();
-//     })
-  
+        wrapper = shallow( <CounterApp />);
+
+    })
+
     test('debe mostrar <CounterApp /> correctamente ', () => {
         
         const value = 10;
-        const wrapper = shallow( <CounterApp value = {value} />)
-
+        
         expect( wrapper ).toMatchSnapshot();
     })
     
     test('debe mostrar el valor por defecto de 100 ', () => {
         const value = "100";
-        const wrapped = shallow( <CounterApp value = {value} /> ) 
-        const textoValor = wrapped.find("h2").text().trim();
+        const wrapper = shallow( <CounterApp value = {value} /> ) 
+        const textoValor = wrapper.find("h2").text().trim();
         console.log(textoValor);
 
         expect( textoValor ).toBe(value);
     })
     
-  
+    test('debe incrementar con el botón +1 ', () => {
+        
+        const btnsuma = wrapper.find("button").at(0).simulate("click");
+
+        const textoValor = wrapper.find("h2").text().trim();
+
+        expect( textoValor ).toBe("11");
+        
+    })
     
+    test('debe decrementar con el botón -1 ', () => {
+        
+        const btnresta = wrapper.find("button").at(2).simulate("click");
+
+        const textoValor = wrapper.find("h2").text().trim();
+
+        expect( textoValor ).toBe("9");
+
+    })
+
+    test('debe resetear el valor por defecto ', () => {
+        
+        const wrapper = shallow( <CounterApp value = {105} /> )
+        
+        const btnsuma = wrapper.find("button").at(0).simulate("click");
+
+       const btnreset = wrapper.find("button").at(1).simulate("click");
+        
+        const textoValor = wrapper.find("h2").text().trim();
+
+        expect( textoValor ).toBe("105");
+
+
+    })
 
  })
